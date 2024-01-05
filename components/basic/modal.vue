@@ -4,13 +4,13 @@
       <div class="card_wrap">
         <div v-for="(value, key, index) in forms">
           <span v-if="(typeof value === 'object' && value.relation)">
-            {{ f_relation(value.relation)}}
+            {{ key }} : <input class="input" :type="value"/>
           </span>
-          <span v-else>{{ value }}</span>
+          <span v-else>{{ key }} : <input class="input" :type="value"/> </span>
         </div>        
       </div>
     </div>
-  </Teleport>
+  </Teleport> 
 </template>
 
 <script setup>
@@ -52,6 +52,16 @@ const f_relation = (relation) => {
     min-height: 500px;
     padding: 20px;
     box-sizing: border-box;
+
+
+    .input {
+
+
+    }
+    .input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
   }
 }
 </style>
