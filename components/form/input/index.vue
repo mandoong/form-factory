@@ -9,15 +9,15 @@
     <tbody>
       <tr v-for="(data, index) in p_data">
         <td v-for="(value, key, index) in data">
-          <span v-if="Array.isArray(value)">{{ value }}</span>
-          <span v-else-if="typeof value === 'object' && Object.keys(p_relation)?.some(e => e === key)">{{value?.id ?  p_relation[key] + ' ' +  value?.id : "-" }}</span>
+          <span v-if="Array.isArray(value) && Object.keys(p_relation)?.some(e => e === key)">{{ relationCheck(value) }}</span>
+          <span v-else-if="Array.isArray(value)">{{ relationCheck(value) }}</span>
+          <span v-else-if="typeof value === 'object' && Object.keys(p_relation)?.some(e => e === key)">
+            {{value?.id ?  p_relation[key] + ' ' +  value?.id : "-" }}</span>
           <span v-else>{{ value }}</span>
         </td>
       </tr>
     </tbody>
   </table>
-
-  
 </template>
 
 <script setup>
@@ -28,8 +28,17 @@ const $props = defineProps({
   relation: {
     type: Object
   }
-  
 })
+
+const relationCheck = (value) => {
+  if (value.id) {
+    return value.id
+  } else if (Array.isArray(value)) {
+    return value.map(e => relationCheck(e))
+  } else {
+    return "-"
+  }
+}
 
 const {
   schema: p_data,
@@ -41,8 +50,6 @@ onMounted(() => {
   console.log(p_data.value)  
 })
 
-
-// <FormFactory
 // 							schema={[
 // 								{ label: "이메일", key: "email", method: "text", validation: "required", defaultValue: selected.email },
 // 								{ label: "닉네임", key: "nickname", method: "text", validation: "required", defaultValue: selected.nickname },

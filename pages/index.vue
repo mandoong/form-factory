@@ -3,7 +3,7 @@
     <FormInput 
         :schema="data" 
         :relation="{
-        children: 'comment',
+        children: ['comment'],
         user: 'user',
         comment_movie: 'movie',
         parent: 'comment'
