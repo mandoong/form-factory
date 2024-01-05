@@ -8,36 +8,55 @@ class pageData {
     this.UPDATE = update
     this.DELETE = deleted
   }
-
   create() {
     return movieData
   }
   find() {
     return movieData
   }
-  update() {
+  update(id = null) {
+
+    console.log(id)
+    const { url, data } = this.UPDATE
+    if (data && Array.isArray(data)) {
+      data.forEach(e => {
+        return
+      })
+    }
     
-    usePageData('users')
-    return this.UPDATE
+    return
   }
   delete() {
+
+    console.log('deleted')
     return this.DELETE
   }
 }
 
 export const usePageData = (page) => computed(() => {
   switch (page) {
-    case 'movies': 
+    case 'movies':
       return new pageData({
+        table: {
+          id: 'number',
+          name: 'string',
+          rage: 'number',
+          updated: 'number',
+        },
         creat: {
           url: 'movieCreate',
-          data: {
-            id: 'Number', 
-            name: "String"
-          }
         },
         read : 'movieRead',
-        update : 'movieUpdate',
+        update: {
+          url: 'usersUpdate',
+          data: {
+            user: {
+              type: 'string',
+              relation: 'users'
+            },
+            age: 'number'
+          }
+        },
         deleted : 'movieDelete',
       })
     case 'users': 
@@ -47,10 +66,11 @@ export const usePageData = (page) => computed(() => {
         update: {
           url: 'usersUpdate',
           data: {
-            users: {
+            movies: {
               type: 'string',
-              relation: 'users'
-            }
+              relation: 'movies'
+            },
+            age: 'number'
           }
         },
         deleted : 'usersDelete',

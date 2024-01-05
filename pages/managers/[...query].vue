@@ -4,7 +4,7 @@
   </div>
   <div v-else-if="pageData">
     <FormInput 
-        :schema="pageData.find()" 
+        :schema="pageData" 
         :relation="{
         children: ['comment'],
         user: 'user',
@@ -13,8 +13,7 @@
         }"/>
     <RouterLink :to="`${_page}/${id}`">
       Go!
-      </RouterLink>
-
+    </RouterLink>
   </div>
 
   <div v-else>

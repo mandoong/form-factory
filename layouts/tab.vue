@@ -14,7 +14,7 @@
 </template>
 
 <script setup>
-const _close = ref(false)
+const _close = ref(true)
 
 </script>
 
