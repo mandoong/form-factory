@@ -2,17 +2,17 @@
   <table>
     <thead>
       <tr>
-        <th v-for="(value, key, index) in p_data[0]">
+        <th v-for="(value, key, index) in schema[0]">
         {{ key }}</th>
       </tr>
     </thead>
     <tbody>
-      <tr v-for="(data, index) in p_data">
+      <tr v-for="(data, index) in schema">
         <td v-for="(value, key, index) in data">
-          <span v-if="Array.isArray(value) && Object.keys(p_relation)?.some(e => e === key)">{{ relationCheck(value) }}</span>
+          <span v-if="Array.isArray(value) && Object.keys(relation)?.some(e => e === key)">{{ relationCheck(value) }}</span>
           <span v-else-if="Array.isArray(value)">{{ relationCheck(value) }}</span>
-          <span v-else-if="typeof value === 'object' && Object.keys(p_relation)?.some(e => e === key)">
-            {{value?.id ?  p_relation[key] + ' ' +  value?.id : "-" }}</span>
+          <span v-else-if="typeof value === 'object' && Object.keys(relation)?.some(e => e === key)">
+            {{value?.id ?  relation[key] + ' ' +  value?.id : "-" }}</span>
           <span v-else>{{ value }}</span>
         </td>
       </tr>
@@ -30,6 +30,12 @@ const $props = defineProps({
   }
 })
 
+const {
+  schema: schema,
+  relation: relation,
+} = toRefs($props)
+
+
 const relationCheck = (value) => {
   if (value.id) {
     return value.id
@@ -40,14 +46,16 @@ const relationCheck = (value) => {
   }
 }
 
-const {
-  schema: p_data,
-  relation: p_relation,
-} = toRefs($props)
+
+const arr = [1, 2, 3]
+
+const arrSlice = arr.splice(1, 1, ...arr)
+
+console.log(arr, arrSlice)
 
 
 onMounted(() => {
-  console.log(p_data.value)  
+  console.log(schema.value)  
 })
 
 // 							schema={[
