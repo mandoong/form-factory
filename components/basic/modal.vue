@@ -1,28 +1,12 @@
 <template>
   <Teleport to="body">
     <div class="modal" @click.self="close('close')">
-      <div class="card_wrap">
-        <div v-for="(value, key, index) in forms">
-          <span v-if="(typeof value === 'object' && value.relation)">
-            {{ key }} : <input class="input" :type="value"/>
-          </span>
-          <span v-else>{{ key }} : <input class="input" :type="value"/> </span>
-        </div>        
-      </div>
+      <slot />
     </div>
-  </Teleport> 
+  </Teleport>
 </template>
 
 <script setup>
-const $props = defineProps({
-  forms: {
-    type: Object
-  }
-})
-
-const {
-  forms
-} = toRefs($props)
 
 const close = defineEmits(['close'])
 
@@ -31,6 +15,7 @@ const f_relation = (relation) => {
   return usePageData(relation).value
 
 }
+
 
 </script>
 
@@ -46,22 +31,6 @@ const f_relation = (relation) => {
   align-items: center;
   background-color: rgba(0, 0, 0, 0.5);
 
-  .card_wrap {
-    background-color: white;
-    width: 800px;
-    min-height: 500px;
-    padding: 20px;
-    box-sizing: border-box;
 
-
-    .input {
-
-
-    }
-    .input::-webkit-inner-spin-button {
-        -webkit-appearance: none;
-        margin: 0;
-      }
-  }
 }
 </style>

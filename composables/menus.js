@@ -15,8 +15,6 @@ class pageData {
     return movieData
   }
   update(id = null) {
-
-    console.log(id)
     const { url, data } = this.UPDATE
     if (data && Array.isArray(data)) {
       data.forEach(e => {
@@ -54,7 +52,7 @@ export const usePageData = (page) => computed(() => {
               type: 'string',
               relation: 'users'
             },
-            age: 'number'
+            like: 'number'
           }
         },
         deleted : 'movieDelete',

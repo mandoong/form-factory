@@ -23,6 +23,8 @@
 
 
 <script setup>
+
+import axios from 'axios'
 definePageMeta({
   layout: 'tab'
 })
@@ -36,7 +38,6 @@ const pageData = computed(() => {
 })
 
 const id = ref(0)
-
 
 onMounted(() => {
   if (!_page) {

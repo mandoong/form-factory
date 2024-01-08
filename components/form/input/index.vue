@@ -19,7 +19,7 @@
             
           <span v-else>{{ value }}</span>
         </td>
-        <td @click="_modal = 'edit'">수정</td>
+        <td @click="(_modal = 'edit', seletedIdData = data)">수정</td>
         <td @click="schema.delete()">삭제</td>
       </tr>
     </tbody>
@@ -27,8 +27,13 @@
 
   <BasicModal 
     v-if="_modal === 'edit'" 
-    :forms="schema.UPDATE.data"
-    @close="_modal = ''" />
+    @close="_modal = ''" >
+    <FormInputBox 
+      :forms="schema.UPDATE.data" 
+      :data="seletedIdData"
+      @update="schemaUpdate"
+      />
+  </BasicModal>
 
 </template>
 
@@ -49,6 +54,8 @@ const {
 
 const _modal = ref('')
 
+const seletedIdData = ref()
+
 
 const schemaData = computed(() => {
   return schema.value.find()
@@ -65,6 +72,13 @@ const relationCheck = (value) => {
   }
 }
 
+const schemaUpdate = (data) => {
+  const axiosData = { url: schema.value.UPDATE.url, data }
+
+  console.log(axiosData)
+
+  return _modal.value = ''
+}
 </script>
 
 <style lang="scss" scoped>
@@ -75,13 +89,10 @@ table {
   .list_wrap {
   display: flex;
 
-  .list {
-    margin-left: 10px;
+    .list {
+      margin-left: 10px;
+    }
   }
 }
-
-}
-
-
 
 </style>
