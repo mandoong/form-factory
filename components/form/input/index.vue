@@ -42,23 +42,22 @@ const $props = defineProps({
   schema: {
     type: Object
   },
-  relation: {
-    type: Object
-  }
 })
 
 const {
-  schema,
-  relation,
+  schema
 } = toRefs($props)
 
 const _modal = ref('')
 
 const seletedIdData = ref()
 
+const relation = computed(() => {
+  return schema.value?.table || {}
+}) 
 
 const schemaData = computed(() => {
-  return schema.value.find()
+  return schema.value.findAll()
 })
 
 
