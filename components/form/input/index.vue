@@ -20,13 +20,22 @@
           <span v-else>{{ value }}</span>
         </td>
         <td @click="(_modal = 'edit', seletedIdData = data)">수정</td>
-        <td @click="schema.delete()">삭제</td>
+        <td @click="(_modal = 'delete', seletedIdData = data)">삭제</td>
       </tr>
     </tbody>
   </table>
 
   <BasicModal 
     v-if="_modal === 'edit'" 
+    @close="_modal = ''" >
+    <FormInputBox 
+      :forms="schema.UPDATE.data" 
+      :data="seletedIdData"
+      @update="schemaUpdate"
+      />
+  </BasicModal>
+  <BasicModal 
+    v-if="_modal === 'delete'" 
     @close="_modal = ''" >
     <FormInputBox 
       :forms="schema.UPDATE.data" 
@@ -56,9 +65,7 @@ const relation = computed(() => {
   return schema.value?.table || {}
 }) 
 
-const schemaData = computed(() => {
-  return schema.value.findAll()
-})
+const schemaData = ref([])
 
 
 const relationCheck = (value) => {
@@ -78,6 +85,10 @@ const schemaUpdate = (data) => {
 
   return _modal.value = ''
 }
+
+watch(schema, async () => {
+  schemaData.value = await schema.value.findAll()
+}, {immediate: true})
 </script>
 
 <style lang="scss" scoped>
@@ -85,13 +96,28 @@ const schemaUpdate = (data) => {
 table {
   width: 100%;
 
-  .list_wrap {
-  display: flex;
 
-    .list {
-      margin-left: 10px;
+
+  tbody {
+
+    tr {
+
+      td {
+        max-width: 200px;
+        overflow: hidden;
+        padding: 0px 10px;
+
+        span {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+
+        }
+      }
     }
   }
+
+
 }
 
 </style>

@@ -4,7 +4,7 @@
     <div class="input_list_wrap">
       <div class="input_list" v-for="(value, key, index) in forms">
         <span class="input_wrap" v-if="(typeof value === 'object' && value.relation)">
-          <div class="input_title">{{ key }}</div>: <input class="input" :type="value"  v-model="inputData[key].id"/>
+          <div class="input_title">{{ key }}</div>: <input class="input" :type="value"  v-model="inputData[key]"/>
         </span>
         <span class="input_wrap" v-else>
           <div class="input_title">{{ key }}</div>
@@ -67,11 +67,17 @@ const schemaUpdate = () => {
     .input_wrap {
     display: flex;
     gap: 10px;
+    align-items: center;
+    box-sizing: border-box;
       .input_title {
-        width: 60px;
+        width: 100px;
+        
       }
 
       .input {
+
+        width: 100%;
+        height: 30px;
 
         &::-webkit-inner-spin-button {
         -webkit-appearance: none;

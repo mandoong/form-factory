@@ -1,4 +1,4 @@
-import { commentData, movieData } from "./pageData"
+import axios from "axios"
 
 class pageData {
   constructor({ table, creat, read, update, deleted }) {
@@ -12,12 +12,26 @@ class pageData {
     return
   }
 
-  findAll() {
-    return  this.READ
+  async findAll() {
+    if (this.READ?.all) {
+      const result = await axios.get(this.READ.all)
+    
+      if (result) {
+        return result.data
+      }
+    }
+    return []
   }
 
-  findOne(id) {
-    return movieData.find(e => e.id === id) || {}
+  async findOne(id) {
+    if (this.READ?.one && id) {
+      const result = await axios.get(this.READ.one + `${id}`)
+    
+      if (result) {
+        return result.data
+      }
+    }
+    return {}
 
   }
 
@@ -52,48 +66,63 @@ export const usePageData = (page) => computed(() => {
 const pageDatas = {
   movies: {
     table: {
-      children: ['comment'],
-      user: 'user',
-      comment_movie: 'movie',
-      parent: 'comment'
+
     },
     creat: {
       url: 'movieCreate',
     },
-    read: movieData,
+    read: {
+      all: 'https://api.fullbloommovies.com/movies/deadline',
+      one : 'https://api.fullbloommovies.com/movies/'
+    },
     update: {
       url: 'usersUpdate',
       data: {
-        user: {
-          type: 'string',
-          relation: 'users'
-        },
-        like: 'number'
+        title: 'string',
+        scoring: 'number',
+        description: 'string',
+        like_count: 'number',
+        dislike_count: 'number',
       }
     },
     deleted: 'movieDelete',
 
   },
-  users: {
-    creat: 'usersCreate',
-    read: 'usersRead',
+  // users: {
+  //   creat: 'usersCreate',
+  //   read: 'usersRead',
+  //   update: {
+  //     url: 'usersUpdate',
+  //     data: {
+  //       movies: {
+  //         type: 'string',
+  //         relation: 'movies'
+  //       },
+  //       age: 'number'
+  //     }
+  //   },
+  //   deleted: 'usersDelete',
+
+  // },
+  comments: {
+    table: {
+      children: ['comment'],
+      user: 'user',
+      comment_movie: 'movie',
+      parent: 'comment'
+    },
+    creat: 'commentsCreate',
+    read: {
+      all: 'https://api.fullbloommovies.com/comments/all/'
+    },
     update: {
-      url: 'usersUpdate',
+      url: 'commentsUpdate',
       data: {
-        movies: {
-          type: 'string',
-          relation: 'movies'
-        },
-        age: 'number'
+        like: 'number',
+        report: 'number',
+        content: 'string',
       }
     },
-    deleted: 'usersDelete',
-
-  },
-  comments: {
-    creat: 'commentsCreate',
-    read: commentData,
-    update: 'commentsUpdate',
     deleted: 'commentsDelete',
   }
 }
