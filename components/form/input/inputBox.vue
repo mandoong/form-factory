@@ -35,7 +35,7 @@ const {
 
 const inputData = ref({...data.value})
 
-const page = getQuery().page.toUpperCase()
+const page = useQuery().page.toUpperCase()
 
 const emits = defineEmits(['update']) 
 

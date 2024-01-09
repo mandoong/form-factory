@@ -70,9 +70,6 @@ export const usePageData = (page) => computed(() => {
 
 const pageDatas = {
   movies: {
-    table: {
-
-    },
     creat: {
       url: 'movieCreate',
     },
@@ -111,10 +108,19 @@ const pageDatas = {
   // },
   comments: {
     table: {
-      children: ['comment'],
-      user: 'user',
-      comment_movie: 'movie',
-      parent: 'comment'
+      type: {
+        
+      },
+      ignore: {
+        
+      },
+      relation: {
+        children: ['comment'],
+        user: 'user',
+        comment_movie: 'movie',
+        parent: 'comment'
+        
+      }
     },
     creat: 'commentsCreate',
     read: {

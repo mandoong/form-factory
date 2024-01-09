@@ -1,4 +1,4 @@
-export const getQuery = () => {
+export const useQuery = () => {
   const pages = useRoute().params.query
 
   return {

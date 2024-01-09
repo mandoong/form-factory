@@ -2,12 +2,18 @@
   <table>
     <thead>
       <tr>
+        <th class="check_box_column"></th>
         <th v-for="(value, key, index) in schemaData[0]">
         {{ key }}</th>
+        <th>Edit</th>
+        <th>Delete</th>
       </tr>
     </thead>
     <tbody>
       <tr v-for="(data, index) in schemaData">
+        <td class="check_box_column" >
+          <div class="check_box"></div>
+        </td>
         <td v-for="(value, key, index) in data">
           <span v-if="Array.isArray(value) && Object.keys(relation)?.some(e => e === key)">
             {{ relationCheck(value) }}</span>
@@ -62,7 +68,7 @@ const _modal = ref('')
 const seletedIdData = ref()
 
 const relation = computed(() => {
-  return schema.value?.table || {}
+  return schema.value?.table?.relation || {}
 }) 
 
 const schemaData = ref([])
@@ -97,6 +103,29 @@ watch(schema, async () => {
 
 table {
   width: 100%;
+  border-spacing: 0px;
+
+  thead {
+     tr { 
+      background-color: gray;
+      color: white;
+      height: 30px;
+      position: sticky;
+      top: 0;
+      
+      th {
+        padding: 0 10px;
+        border-left: 1px solid white;
+
+        &:last-child {
+          border-left: none;
+        }
+        &.check_box_column {
+          min-width: 20px;
+        }
+      }
+     }
+  }
 
 
 
@@ -104,10 +133,15 @@ table {
 
     tr {
 
+
+
       td {
+
+
         max-width: 200px;
         overflow: hidden;
         padding: 0px 10px;
+        height: 30px;
 
         span {
           overflow: hidden;
@@ -115,11 +149,22 @@ table {
           white-space: nowrap;
 
         }
+       &.check_box_column {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .check_box {
+          border: 1px solid gray;
+          width: 12px;
+          aspect-ratio: 1 / 1;
+        }
+       }
       }
+      &:nth-child(even) {
+          background-color: rgba(242, 242, 242);  
+        }
     }
   }
-
-
 }
 
 </style>
