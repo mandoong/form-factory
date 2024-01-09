@@ -9,7 +9,13 @@
       </div>
     </div>
     <div class="dash_board_wrap"> 
-      <div class="board_tilte">{{ params.page.toUpperCase() }} TABLE</div>
+      <div class="top_nav">
+        Home
+        <div v-for="(value, index) in top_navs">
+          <span class="indicate"> > </span>
+        {{ value }} </div>
+      </div>
+      <div class="board_tilte">{{ params?.page?.toUpperCase() }} TABLE</div>
       <div class="boar_wrap">
         <slot />
 
@@ -23,6 +29,9 @@ const _close = ref(true)
 
 
 const pageMenus = usePageMenus()
+const top_navs = computed(() => {
+  return useRoute().params.query
+}) 
 const params = useQuery()
 const router = useRouter()
       
@@ -93,6 +102,17 @@ console.log(pageMenus.value)
     flex-direction: column;
     padding: 50px 100px;
     width: calc(100% - 250px);
+
+    .top_nav {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      color: grey;
+
+      .indicate {
+        margin-right: 5px;
+      }
+    }
 
     .board_tilte {
       font-size: 36px;

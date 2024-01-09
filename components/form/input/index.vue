@@ -66,6 +66,7 @@ const {
 const _modal = ref('')
 
 const seletedIdData = ref()
+const params = useQuery()
 
 const relation = computed(() => {
   return schema.value?.table?.relation || {}
@@ -85,7 +86,7 @@ const relationCheck = (value) => {
 }
 
 const schemaUpdate = async (data) => {
-  const result = await schema.value.update(seletedIdData.value.id, data)
+  const result = await schema.value?.update(seletedIdData.value.id, data)
 
   if (result) {
     result.data
@@ -95,7 +96,9 @@ const schemaUpdate = async (data) => {
 }
 
 watch(schema, async () => {
-  schemaData.value = await schema.value.findAll()
+  if (params?.page) {
+    schemaData.value = await schema.value?.findAll()
+  }
 }, {immediate: true})
 </script>
 
