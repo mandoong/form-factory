@@ -78,12 +78,14 @@ const relationCheck = (value) => {
   }
 }
 
-const schemaUpdate = (data) => {
-  const axiosData = { url: schema.value.UPDATE.url, data }
+const schemaUpdate = async (data) => {
+  const result = await schema.value.update(seletedIdData.value.id, data)
 
-  console.log(axiosData)
+  if (result) {
+    result.data
+  }
 
-  return _modal.value = ''
+  _modal.value = ''
 }
 
 watch(schema, async () => {

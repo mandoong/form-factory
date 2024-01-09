@@ -35,14 +35,19 @@ class pageData {
 
   }
 
-  update(id = null) {
-    const { url, data } = this.UPDATE
-    // if (data && Array.isArray(data)) {
-    //   data.forEach(e => {
-    //     return
-    //   })
-    // }
-    return
+  async update(id = null, value) {
+    if (this.UPDATE.url && id && value) {
+      const result = await axios.post(this.UPDATE.url + `${id}`, value)
+
+      if (result.status === 200) {
+        return result.data
+      } else {
+        console.log(result.status)
+      }
+     
+    }
+
+    return []
   }
   delete() {
 
@@ -116,7 +121,7 @@ const pageDatas = {
       all: 'https://api.fullbloommovies.com/comments/all/'
     },
     update: {
-      url: 'commentsUpdate',
+      url: 'commentsUpdate/',
       data: {
         like: 'number',
         report: 'number',
